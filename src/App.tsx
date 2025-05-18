@@ -10,33 +10,36 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FindSlotPage from "./pages/FindSlotPage";
 import MyBookingsPage from "./pages/MyBookingsPage";
-import AuthPage from "./pages/AuthPage"; // Placeholder for Clerk auth
+import AuthPage from "./pages/AuthPage";
+import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/find-slot" element={<FindSlotPage />} />
-              <Route path="/my-bookings" element={<MyBookingsPage />} />
-              <Route path="/auth" element={<AuthPage />} /> {/* Placeholder for Clerk Auth */}
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+      <BrowserRouter> {/* AuthProvider needs to be inside BrowserRouter to use navigate */}
+        <AuthProvider> {/* Wrap with AuthProvider */}
+          <Toaster />
+          <Sonner />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/find-slot" element={<FindSlotPage />} />
+                <Route path="/my-bookings" element={<MyBookingsPage />} />
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
 
 export default App;
+

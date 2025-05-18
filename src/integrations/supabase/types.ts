@@ -9,7 +9,150 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          booking_date: string
+          created_at: string
+          duration_hours: number
+          id: string
+          location_id: string | null
+          parking_slot_id: number | null
+          status: string | null
+          total_price: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          booking_date: string
+          created_at?: string
+          duration_hours: number
+          id?: string
+          location_id?: string | null
+          parking_slot_id?: number | null
+          status?: string | null
+          total_price: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          booking_date?: string
+          created_at?: string
+          duration_hours?: number
+          id?: string
+          location_id?: string | null
+          parking_slot_id?: number | null
+          status?: string | null
+          total_price?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_parking_slot_id_fkey"
+            columns: ["parking_slot_id"]
+            isOneToOne: false
+            referencedRelation: "parking_slots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_profile_arunthathi"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      locations: {
+        Row: {
+          address: string | null
+          amenities: string | null
+          created_at: string
+          daily_rate: number
+          has_security: boolean | null
+          id: string
+          name: string
+        }
+        Insert: {
+          address?: string | null
+          amenities?: string | null
+          created_at?: string
+          daily_rate: number
+          has_security?: boolean | null
+          id?: string
+          name: string
+        }
+        Update: {
+          address?: string | null
+          amenities?: string | null
+          created_at?: string
+          daily_rate?: number
+          has_security?: boolean | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      parking_slots: {
+        Row: {
+          created_at: string
+          id: number
+          is_available: boolean | null
+          location_id: string | null
+          slot_number: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_available?: boolean | null
+          location_id?: string | null
+          slot_number: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_available?: boolean | null
+          location_id?: string | null
+          slot_number?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parking_slots_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_profile_arunthathi: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
